@@ -1,34 +1,30 @@
-import { useEffect, useState } from 'react';
-import { type OpenMeteoResponse } from '../types/DashboardTypes';
 
-type FetchDataReturn = {
-    data: OpenMeteoResponse | undefined;
-    loading: boolean;
-    error: Error | undefined;
-}
+import { useEffect, useState } from "react";
+import { type OpenMeteoResponse } from "../types/DashboardTypes";
 
-export default function useFetchData() : FetchDataReturn {
+export default function useFetchData() {
+    const URL = 'https://api.open-meteo.com/v1/forecast?latitude=-2.1894&longitude=-79.8889&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m&hourly=temperature_2m,wind_speed_10m&temperature_unit=celsius&wind_speed_unit=kmh&precipitation_unit=mm&timezone=America%2FChicago';
 
-    const  URL = 'https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,relative_humidity_2m,wind_speed_10m,apparent_temperature&timezone=America%2FChicago';
-
-    const [data, setData] = useState<OpenMeteoResponse | undefined>();
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<Error | undefined>();
+    const [data, setData] = useState<OpenMeteoResponse>();
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
     useEffect(() => {
-        (async () => {
+        const fetchData = async () => {
+            setLoading(true);
             try {
                 const response = await fetch(URL);
-                const jsonData = await response.json();
-                setData(jsonData);
-            } catch (e) {
-                setError(e as Error);
+                const json = await response.json();
+                setData(json);
+            } catch (error) {
+                setError(String(error))
             } finally {
                 setLoading(false);
             }
-        })();
-    }, []); // El array vacío asegura que el efecto se ejecute solo una vez después del primer renderizado
+        };
+        fetchData();
+    }, [] );
 
-    return { data, loading, error };
+    return {data, loading, error};
 
 }
