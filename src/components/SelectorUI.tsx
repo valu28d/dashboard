@@ -3,7 +3,6 @@ import InputLabel from '@mui/material/InputLabel';
 
 import MenuItem from '@mui/material/MenuItem';
 import Select, { type SelectChangeEvent } from '@mui/material/Select';
-import { useState } from 'react';
 
 // Defina la interfaz del prop
 interface SelectorProps {
