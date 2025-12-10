@@ -10,11 +10,17 @@ import IndicatorUI from './components/IndicatorUI';
 import useFetchData from './hooks/useFetchData';
 import TableUI from './components/TableUI';
 import ChartUI from './components/ChartUI';
+import { useState } from 'react';
 
 function App() {
   //const [count, setCount] = useState(0)
   
-  const { data, loading, error } = useFetchData();
+  // Utilice una variable de estado para almacenar la opción seleccionada por el usuario
+  const [selectedOption, setSelectedOption] = useState<string | null>('guayaquil');
+
+  // Comunique la opción seleccionada al hook useFetchData
+  const { data, loading, error } = useFetchData(selectedOption);
+ 
 
   return (
     <Grid container spacing={5} justifyContent="center" alignItems="center">
@@ -61,6 +67,7 @@ function App() {
 
       {/* CONTENIDO PRINCIPAL - Solo se muestra si hay datos y no hay error ni carga */}
       {!loading && !error && data && (
+         
         <>
           {/* Alertas */}
           <Grid size={{ xs: 12, md: 12 }}>
@@ -69,7 +76,7 @@ function App() {
 
           {/* Selector */}
           <Grid size={{ xs: 12, md: 3 }}>
-            <SelectorUI />
+            <SelectorUI onOptionSelect={setSelectedOption} selectedCity={selectedOption || 'guayaquil'} />
           </Grid>
 
           {/* Indicadores */}
