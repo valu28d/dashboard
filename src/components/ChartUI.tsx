@@ -1,6 +1,7 @@
 import { LineChart } from '@mui/x-charts/LineChart';
 import Typography from '@mui/material/Typography';
 import { type OpenMeteoResponse } from '../types/DashboardTypes';
+import { Card, CardContent } from '@mui/material';
 
 interface ChartUIProps {
    data?: OpenMeteoResponse;
@@ -10,14 +11,16 @@ export default function ChartUI({ data }: ChartUIProps) {
    // Si no hay datos, mostrar valores por defecto o vacíos
    if (!data || !data.hourly) {
       return (
-         <>
-            <Typography variant="h5" component="div">
-               Gráfico de datos meteorológicos
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-               No hay datos disponibles
-            </Typography>
-         </>
+         <Card className="glass-card">
+            <CardContent>
+                <Typography variant="h5" component="div">
+                Gráfico de datos meteorológicos
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                No hay datos disponibles
+                </Typography>
+            </CardContent>
+         </Card>
       );
    }
 
@@ -33,26 +36,44 @@ export default function ChartUI({ data }: ChartUIProps) {
    });
 
    return (
-      <>
-         <Typography variant="h5" component="div">
-            Temperatura y Viento (Próximas 24 horas)
-         </Typography>
-         <LineChart
-            height={400}
-            series={[
-               { 
-                  data: temperatureData, 
-                  label: `Temperatura (${data.hourly_units.temperature_2m})`,
-                  color: '#ff6b6b'
-               },
-               { 
-                  data: windData, 
-                  label: `Viento (${data.hourly_units.wind_speed_10m})`,
-                  color: '#4ecdc4'
-               },
-            ]}
-            xAxis={[{ scaleType: 'point', data: timeLabels }]}
-         />
-      </>
+      <Card className="glass-card">
+         <CardContent>
+            <Typography variant="h5" component="div" align="center" sx={{ fontWeight: 'bold', mb: 2 }}>
+                Temperatura y Viento (Próximas 24 horas)
+            </Typography>
+            <LineChart
+                height={250}
+                series={[
+                { 
+                    data: temperatureData, 
+                    label: `Temperatura (${data.hourly_units.temperature_2m})`,
+                    color: '#ff8a80',
+                    area: true,
+                    curve: "catmullRom",
+                    showMark: false,
+                },
+                { 
+                    data: windData, 
+                    label: `Viento (${data.hourly_units.wind_speed_10m})`,
+                    color: '#80d8ff',
+                    area: true,
+                    curve: "catmullRom",
+                    showMark: false,
+                },
+                ]}
+                xAxis={[{ 
+                    scaleType: 'point', 
+                    data: timeLabels,
+                }]}
+                yAxis={[{
+                    // Default theme
+                }]}
+                sx={{
+                    '.MuiLineElement-root': { strokeWidth: 3 },
+                    '.MuiAreaElement-root': { fillOpacity: 0.3 }
+                }}
+            />
+         </CardContent>
+      </Card>
    );
 }

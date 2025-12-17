@@ -34,23 +34,29 @@ export default function TableUI({ data }: TableUIProps) {
    }
 
    const columns: GridColDef[] = [
-      { field: 'id', headerName: 'ID', width: 40 },
+      { field: 'id', headerName: 'ID', width: 40, align: 'center', headerAlign: 'center' },
       {
          field: 'time',
          headerName: 'Fecha y Hora',
          width: 180,
+         align: 'center', 
+         headerAlign: 'center'
       },
       {
          field: 'temperature',
          headerName: `Temperatura (${data.hourly_units.temperature_2m})`,
          width: 130,
          type: 'number',
+         align: 'center', 
+         headerAlign: 'center'
       },
       {
          field: 'windSpeed',
          headerName: `Viento (${data.hourly_units.wind_speed_10m})`,
          width: 130,
          type: 'number',
+         align: 'center', 
+         headerAlign: 'center'
       },
       {
          field: 'resumen',
@@ -59,14 +65,16 @@ export default function TableUI({ data }: TableUIProps) {
          sortable: false,
          hideable: false,
          width: 150,
+         align: 'center', 
+         headerAlign: 'center',
          valueGetter: (_, row) => `${row.temperature}° - ${row.windSpeed} km/h`,
       },
    ];
 
    const rows = prepareTableData(data);
-
+   
    return (
-      <Box sx={{ height: 350, width: '100%' }}>
+      <Box className="glass-card" sx={{ height: 350, width: '100%', p: 2 }}>
          <DataGrid
             rows={rows}
             columns={columns}
@@ -79,6 +87,15 @@ export default function TableUI({ data }: TableUIProps) {
             }}
             pageSizeOptions={[5]}
             disableRowSelectionOnClick
+            sx={{
+               border: 'none',
+               '& .MuiDataGrid-cell:hover': {
+                  color: 'primary.main',
+               },
+               '& .MuiDataGrid-columnHeaders': {
+                  backgroundColor: 'rgba(0,0,0,0.02)',
+               },
+            }}
          />
       </Box>
    );

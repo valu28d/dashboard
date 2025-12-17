@@ -10,7 +10,12 @@ import IndicatorUI from './components/IndicatorUI';
 import useFetchData from './hooks/useFetchData';
 import TableUI from './components/TableUI';
 import ChartUI from './components/ChartUI';
+import WeatherAdviceUI from './components/WeatherAdviceUI';
+import AssistantUI from './components/AssistantUI';
 import { useState } from 'react';
+import DeviceThermostatIcon from '@mui/icons-material/DeviceThermostat';
+import AirIcon from '@mui/icons-material/Air';
+import WaterDropIcon from '@mui/icons-material/WaterDrop';
 
 function App() {
   //const [count, setCount] = useState(0)
@@ -23,7 +28,7 @@ function App() {
  
 
   return (
-    <Grid container spacing={5} justifyContent="center" alignItems="center">
+    <Grid container spacing={4} justifyContent="center" alignItems="center" sx={{ maxWidth: '1600px', margin: '0 auto', padding: '20px' }}>
 
       {/* Encabezado */}
       <Grid size={{ xs: 12, md: 12 }}><HeaderUI /></Grid>
@@ -71,7 +76,7 @@ function App() {
         <>
           {/* Alertas */}
           <Grid size={{ xs: 12, md: 12 }}>
-            <AlertUI description='No se prevee lluvias' />
+            <AlertUI description='Sistema Meteorológico Activo - Actualización en tiempo real' />
           </Grid>
 
           {/* Selector */}
@@ -80,48 +85,56 @@ function App() {
           </Grid>
 
           {/* Indicadores */}
-          <Grid container size={{ xs: 12, md: 9 }} spacing={2}>
+          <Grid container size={{ xs: 12, md: 9 }} spacing={4}>
 
             <Grid size={{ xs: 12, md: 3 }}>
               <IndicatorUI
                 title='Temperatura (2m)'
                 description={`${data.current.temperature_2m} ${data.current_units.temperature_2m}`}
+                icon={<DeviceThermostatIcon fontSize="large" />}
               />
             </Grid>
 
             <Grid size={{ xs: 12, md: 3 }}>
-              {/* IndicatorUI con la Temperatura aparente en °C */}
               <IndicatorUI
                 title='Temperatura aparente'
                 description={`${data.current.apparent_temperature} ${data.current_units.apparent_temperature}`}
+                icon={<DeviceThermostatIcon fontSize="large" color="action" />}
               />
             </Grid>
 
             <Grid size={{ xs: 12, md: 3 }}>
-              {/* IndicatorUI con la Velocidad del viento en km/h */}
               <IndicatorUI
                 title='Velocidad del viento'
                 description={`${data.current.wind_speed_10m} ${data.current_units.wind_speed_10m}`}
+                icon={<AirIcon fontSize="large" />}
               />
             </Grid>
 
             <Grid size={{ xs: 12, md: 3 }}>
-              {/* IndicatorUI con la Humedad relativa en % */}
               <IndicatorUI
                 title='Humedad relativa'
                 description={`${data.current.relative_humidity_2m} ${data.current_units.relative_humidity_2m}`}
+                icon={<WaterDropIcon fontSize="large" />}
               />
             </Grid>
 
           </Grid>
 
           {/* Gráfico */}
-          <Grid size={{ xs: 12, md: 6 }}><ChartUI data={data} /></Grid>
+          <Grid size={{ xs: 12, md: 7 }}><ChartUI data={data} /></Grid>
+
 
           {/* Tabla */}
-          <Grid size={{ xs: 12, md: 6 }}><TableUI data={data} /></Grid>
-          {/* Información adicional */}
-          <Grid size={{ xs: 12, md: 12 }}>Elemento: Información adicional</Grid>
+          <Grid size={{ xs: 12, md: 5 }}><TableUI data={data} /></Grid>
+          
+          {/* Recomendaciones y Asistente */}
+          <Grid size={{ xs: 12, md: 6 }}>
+            <WeatherAdviceUI data={data} />
+          </Grid>
+          <Grid size={{ xs: 12, md: 6 }}>
+            <AssistantUI data={data} />
+          </Grid>
         </>
       )}
 

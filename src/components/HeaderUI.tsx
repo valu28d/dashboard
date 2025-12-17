@@ -3,9 +3,16 @@ import Typography from "@mui/material/Typography";
 export default function HeaderUI(){
     return (
         <Typography
-            variant = "h2"
+            variant = "h3"
             component="h1"
-            sx={{fontWeight: "bold"}}>
+            align="center"
+            sx={{
+                fontWeight: "bold",
+                mb: 2,
+                color: 'text.primary',
+                textTransform: 'uppercase',
+                letterSpacing: 2
+            }}>
             Dashboard del Clima            
         </Typography>
     )
